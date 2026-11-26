@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Speech to Text</title>
+  <style>
+    :root { --bg:#f6f7fb; --card:#fff; --text:#1c1f2a; --muted:#6b7280; --primary:#4f46e5; --danger:#dc2626; --border:#e5e7eb; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background:var(--bg); color:var(--text); }
+    main { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+    h1 { margin: 0 0 4px; }
+    .sub { color: var(--muted); margin: 0 0 24px; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:24px; }
+    button { border:0; border-radius:8px; padding:9px 16px; font-size:14px; cursor:pointer; background:var(--primary); color:#fff; }
+    button.secondary { background:#eef0f6; color:var(--text); }
+    button.danger { background:var(--danger); }
+    button:disabled { opacity:.5; cursor:not-allowed; }
+    #transcript { min-height:110px; margin-top:16px; padding:14px; border:1px dashed var(--border); border-radius:8px; white-space:pre-wrap; line-height:1.6; }
+    #partial { color: var(--muted); }
+    #status { margin-left:12px; color:var(--muted); font-size:14px; }
+    .toolbar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:12px; }
+    input[type=text], textarea { width:100%; padding:9px 12px; border:1px solid var(--border); border-radius:8px; font:inherit; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th, td { text-align:left; padding:10px 8px; border-bottom:1px solid var(--border); vertical-align:top; }
+    td.text { max-width:380px; white-space:pre-wrap; word-break:break-word; }
+    td.actions { white-space:nowrap; }
+    dialog { border:1px solid var(--border); border-radius:12px; width:min(560px, 92vw); padding:20px; }
+    dialog label { display:block; margin:12px 0 4px; font-size:13px; color:var(--muted); }
+    dialog textarea { min-height:140px; }
+    .dialog-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Speech to Text</h1>
+  <p class="sub">Speak in Hindi, English or a mix of both. Transcription appears in real time.</p>
+
+  <section class="card">
+    <button id="recBtn">Start recording</button>
+    <span id="status">Idle</span>
+    <div id="transcript"><span id="committed"></span> <span id="partial"></span></div>
+  </section>
+
+  <section class="card">
+    <div class="toolbar">
+      <h2 style="margin:0;flex:1">Transcription history</h2>
+      <input id="search" type="text" placeholder="Search…" style="max-width:220px" />
+      <button class="secondary" id="newBtn">+ New</button>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Title</th><th>Text</th><th>Lang</th><th>Dur.</th><th>Created</th><th></th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+</main>
+
+<dialog id="dlg">
+  <h3 id="dlgTitle" style="margin-top:0">Edit</h3>
+  <label for="fTitle">Title</label>
+  <input id="fTitle" type="text" maxlength="200" />
+  <label for="fText">Text</label>
+  <textarea id="fText"></textarea>
+  <div class="dialog-actions">
+    <button class="secondary" id="cancelBtn">Cancel</button>
+    <button id="saveBtn">Save</button>
+  </div>
+</dialog>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
